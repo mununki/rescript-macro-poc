@@ -1,0 +1,15 @@
+{
+  "name": "@macro-poc/local",
+  "private": true,
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "clean": "rescript clean",
+    "build": "rescript build",
+    "test": "node scripts/test.js"
+  },
+  "dependencies": {
+    "@rescript/runtime": "link:../rescript/packages/@rescript/runtime",
+    "ppxlib_res": "link:vendor/ppxlib_res",
+    "rescript": "link:../rescript"
+  }
+}

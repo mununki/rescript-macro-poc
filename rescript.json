@@ -1,0 +1,20 @@
+{
+  "name": "@macro-poc/local",
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true,
+    "suffix": ".res.js"
+  },
+  "dependencies": ["ppxlib_res"],
+  "macros": {
+    "dir": "macros",
+    "namespace": "foo.a"
+  },
+  "warnings": {
+    "error": "+101"
+  }
+}

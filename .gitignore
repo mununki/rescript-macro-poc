@@ -1,0 +1,7 @@
+node_modules
+lib
+macros/.rescript-macros
+src/*.res.js
+vendor/ppxlib_res/lib
+vendor/ppxlib_res/src/*.js
+vendor/ppxlib_res/src/*.res.js

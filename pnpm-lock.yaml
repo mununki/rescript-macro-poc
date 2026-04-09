@@ -1,0 +1,19 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@rescript/runtime':
+        specifier: link:../rescript/packages/@rescript/runtime
+        version: link:../rescript/packages/@rescript/runtime
+      ppxlib_res:
+        specifier: link:vendor/ppxlib_res
+        version: link:vendor/ppxlib_res
+      rescript:
+        specifier: link:../rescript
+        version: link:../rescript
