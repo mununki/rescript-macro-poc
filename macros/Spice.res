@@ -34,10 +34,10 @@ let fieldScalar = (field: Ast.labelDeclaration): scalar =>
 
 let jsonEncoderPath = (scalar: scalar) =>
   switch scalar {
-  | String => ["JSON", "Encode", "string"]
-  | Int => ["JSON", "Encode", "int"]
-  | Float => ["JSON", "Encode", "float"]
-  | Bool => ["JSON", "Encode", "bool"]
+  | String => ["JSON", "String"]
+  | Int => ["JSON", "Number"]
+  | Float => ["JSON", "Number"]
+  | Bool => ["JSON", "Boolean"]
   }
 
 let jsonDecoderPath = (scalar: scalar) =>
@@ -50,10 +50,17 @@ let jsonDecoderPath = (scalar: scalar) =>
 
 let encodedFieldValue = (field: Ast.labelDeclaration) => {
   let scalar = fieldScalar(field)
-  Builder.apply(
-    Builder.ident(jsonEncoderPath(scalar)),
-    [Builder.arg(Builder.field(Builder.ident(["value"]), [field.name]))],
-  )
+  let fieldExpr = Builder.field(Builder.ident(["value"]), [field.name])
+  switch scalar {
+  | Int =>
+    Builder.construct(
+      jsonEncoderPath(scalar),
+      ~arg=Some(
+        Builder.apply(Builder.ident(["Int", "toFloat"]), [Builder.arg(fieldExpr)]),
+      ),
+    )
+  | _ => Builder.construct(jsonEncoderPath(scalar), ~arg=Some(fieldExpr))
+  }
 }
 
 let decodeObjectExpr = (jsonExpr: Ast.expression) =>
@@ -103,10 +110,7 @@ let encodeBody = (fields: array<Ast.labelDeclaration>) => {
     objectPat,
     Builder.apply(Builder.ident(["Dict", "make"]), [Builder.arg(Builder.construct(["()"]))]),
   )
-  let finishExpr = Builder.apply(
-    Builder.ident(["JSON", "Encode", "object"]),
-    [Builder.arg(objectExpr)],
-  )
+  let finishExpr = Builder.construct(["JSON", "Object"], ~arg=Some(objectExpr))
   let body =
     fields->Belt.Array.reduceReverse(finishExpr, (acc, field) =>
       Builder.seq(

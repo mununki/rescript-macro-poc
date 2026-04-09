@@ -9,7 +9,7 @@ let message = %foo.a.graphql("spice")
 type user = {name: string}
 
 // Expands to functions like:
-// let encodeDrink = value => { let object_ = Dict.make(); Dict.set(object_, "label", JSON.Encode.string(value.label)); JSON.Encode.object(object_) }
+// let encodeDrink = value => { let object_ = Dict.make(); Dict.set(object_, "label", JSON.String(value.label)); JSON.Object(object_) }
 // let decodeDrink = json => { let object_ = json->JSON.Decode.object->Option.getOrThrow; {label: object_->Dict.getUnsafe("label")->JSON.Decode.string->Option.getOrThrow} }
 @foo.a.spice
 type drink = {label: string}
